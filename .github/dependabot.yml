@@ -1,0 +1,92 @@
+version: 2
+
+updates:
+  # 1) Backend / root Node dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "security"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    groups:
+      # group safe bumps to reduce PR noise
+      patch-and-minor:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+          - "minor"
+      # keep majors separate for safer review
+      major:
+        applies-to: version-updates
+        update-types:
+          - "major"
+
+  # 2) Frontend Node dependencies (if you have /frontend/package.json)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:30"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "frontend"
+    commit-message:
+      prefix: "deps(frontend)"
+      include: "scope"
+    groups:
+      patch-and-minor:
+        applies-to: version-updates
+        update-types:
+          - "patch"
+          - "minor"
+      major:
+        applies-to: version-updates
+        update-types:
+          - "major"
+
+  # 3) GitHub Actions (workflow actions versions)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "06:00"
+      timezone: "America/Chicago"
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "ci(deps)"
+      include: "scope"
+    groups:
+      gha:
+        applies-to: version-updates
+        patterns:
+          - "*"
+
+  # 4) Docker base image updates (if Dockerfile exists at repo root)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "06:00"
+      timezone: "America/Chicago"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "docker(deps)"
+      include: "scope"
+ 
