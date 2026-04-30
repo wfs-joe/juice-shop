@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: "Check out Git repository"
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
     - name: "Use Node.js 22"
-      uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af #v4.1.0
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e #v6.4.0
       with:
         node-version: 22
     - name: "Install application"
@@ -19,7 +19,7 @@ jobs:
         npm install --ignore-scripts --legacy-peer-deps
     - name: "Fix everything which can be fixed"
       run: 'npm run lint:fix'
-    - uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842 #v5.0.1
+    - uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 #v7.1.0
       with:
         commit_message: "Auto-fix linting issues"
         branch: ${{ github.head_ref }}
